@@ -159,6 +159,30 @@ bad("Could not reach the verification service. Please try again.");
 // Shareable / QR link: index.html?id=DT-2026-1001
 var q=new URLSearchParams(location.search).get("id");
 if(q){inp.value=q.slice(0,40);show("verify");btn.click()}
+  function getIdFromUrl() {
+  // Adjust the number of segments to match your base path
+  const base = '/your-repo-name/'; // use '/' for user sites or custom domains
+  const path = window.location.pathname.replace(base, '');
+  return path.split('/')[0] || null; // "789"
+}
+
+function render() {
+  const id = getIdFromUrl();
+  if (id) {
+    showItem(id); // your function: fetch/lookup and display content for this ID
+  } else {
+    showHome();
+  }
+}
+
+window.addEventListener('DOMContentLoaded', render);
+window.addEventListener('popstate', render);
+
+// For in-app navigation without reloads:
+function navigateTo(id) {
+  history.pushState(null, '', `/your-repo-name/${id}`);
+  render();
+}
 </script>
 </body>
 </html>
